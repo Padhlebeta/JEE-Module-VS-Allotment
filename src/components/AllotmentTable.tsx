@@ -26,6 +26,9 @@ export default function AllotmentTable({ initialData, onDataChange }: { initialD
 
             if (!res.ok) throw new Error('Update failed');
 
+            // Show success message
+            alert('✅ Successfully updated!');
+
             // Ideally update local state optimistically, but for now we reload or just show success
             onDataChange();
         } catch {
