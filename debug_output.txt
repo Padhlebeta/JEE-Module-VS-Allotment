@@ -1,0 +1,12 @@
+--- Debugging Sync Logic ---
+Sheet Title: "Sheet11"
+⚠️ Header NOT found by keywords. Defaulting to 1 (Row 2).
+Headers: ["y8wcbfc1gavixl7b8pbk3dlwc","","6of1zfb3c79hek2aec5399yt2","","nf1i8hy3d4b72ek6uywiwwd7g"]
+Mappings: {"email":-1}
+Fetching data starting Row 3...
+Row 3: Length=5, Index=16, Value="undefined"
+Row 4: Length=5, Index=16, Value="undefined"
+Row 5: Length=5, Index=16, Value="undefined"
+Row 6: Length=5, Index=16, Value="undefined"
+Row 7: Length=5, Index=16, Value="undefined"
+Row 8: Length=3, Index=16, Value="undefined"
