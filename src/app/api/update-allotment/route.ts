@@ -127,10 +127,10 @@ export async function POST(req: Request) {
                 writeBackError = 'No valid column indices found. Sheet may not be updated.';
             }
 
-        } catch (wbError: any) {
-            writeBackError = wbError.message || 'Unknown write-back error';
+        } catch (wbError: unknown) {
+            writeBackError = (wbError as Error).message || 'Unknown write-back error';
             console.error('⚠️ Write-back Failed:', wbError);
-            log(`❌ Write-back error: ${writeBackError}`);
+            console.error(`❌ Write-back error: ${writeBackError}`);
         }
 
         // Return response with write-back status

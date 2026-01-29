@@ -42,8 +42,8 @@ export default function AllotmentTable({ initialData, onDataChange }: { initialD
 
             // Ideally update local state optimistically, but for now we reload or just show success
             onDataChange();
-        } catch (err: any) {
-            alert(`❌ Failed to save:\n${err.message}`);
+        } catch (err: unknown) {
+            alert(`❌ Failed to save:\n${(err as Error).message}`);
         } finally {
             setLoadingIds(prev => {
                 const next = new Set(prev);

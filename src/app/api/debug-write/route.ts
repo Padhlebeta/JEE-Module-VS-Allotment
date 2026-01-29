@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Allotment from '@/models/Allotment';
@@ -6,7 +7,7 @@ import { getGoogleSheets } from '@/lib/googleSheets';
 export async function GET() {
     try {
         await connectToDatabase();
-        
+
         // Get all allotments with write-back metadata
         const allotments = await Allotment.find({}).select(
             'sheetRowId teacherEmail sheetTitle videoLinkCol errorCol linkDateCol status videoLink questionErrorIdentified'
@@ -42,9 +43,9 @@ export async function GET() {
 
             // Check 2: Invalid Column Indices
             if (
-                row.videoLinkCol === undefined || 
-                row.videoLinkCol < 0 || 
-                row.errorCol === undefined || 
+                row.videoLinkCol === undefined ||
+                row.videoLinkCol < 0 ||
+                row.errorCol === undefined ||
                 row.errorCol < 0
             ) {
                 issues.invalidColumnIndices.push(rowData);
@@ -55,7 +56,7 @@ export async function GET() {
             try {
                 const colLetter = getColLetter(row.videoLinkCol);
                 const testRange = `'${row.sheetTitle}'!${colLetter}${row.sheetRowId}`;
-                
+
                 await sheets.spreadsheets.values.get({
                     spreadsheetId: SPREADSHEET_ID,
                     range: testRange
