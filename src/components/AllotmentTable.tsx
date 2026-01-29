@@ -24,15 +24,26 @@ export default function AllotmentTable({ initialData, onDataChange }: { initialD
                 body: JSON.stringify({ id: row._id, ...updates })
             });
 
-            if (!res.ok) throw new Error('Update failed');
+            const data = await res.json();
 
-            // Show success message
-            alert('✅ Successfully updated!');
+            if (!res.ok) {
+                // Complete failure
+                throw new Error(data.error || data.message || 'Update failed');
+            }
+
+            // Check for partial success (207 Multi-Status)
+            if (res.status === 207) {
+                // Data saved to DB but sheet update failed
+                alert(`⚠️ Partial Success:\n${data.message}\n\nError: ${data.writeBackError}\n\n${data.warning}`);
+            } else {
+                // Full success
+                alert('✅ Successfully updated!');
+            }
 
             // Ideally update local state optimistically, but for now we reload or just show success
             onDataChange();
-        } catch {
-            alert('Failed to save');
+        } catch (err: any) {
+            alert(`❌ Failed to save:\n${err.message}`);
         } finally {
             setLoadingIds(prev => {
                 const next = new Set(prev);
@@ -42,6 +53,7 @@ export default function AllotmentTable({ initialData, onDataChange }: { initialD
             });
         }
     };
+
 
     // Internal state for inputs before submitting?
     // For "Video Link" user might want to type and then click submit.
