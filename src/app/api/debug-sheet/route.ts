@@ -9,19 +9,25 @@ export async function GET() {
     try {
         const sheets = await getGoogleSheets();
 
-        // 1. Get first sheet name dynamically (Prioritize 'JEE Modules')
+        // 1. Get sheet dynamically - STRICTLY 'JEE Modules'
         const meta = await sheets.spreadsheets.get({
             spreadsheetId: SPREADSHEET_ID,
         });
 
         const sheetList = meta.data.sheets || [];
-        const specificSheet = sheetList.find(s => s.properties?.title === 'JEE Modules');
-        const targetSheetValid = specificSheet ? specificSheet.properties?.title : (sheetList[0]?.properties?.title || 'Sheet1');
-        const targetSheet = targetSheetValid || 'Sheet1';
+        const targetSheet = sheetList.find(s => s.properties?.title === 'JEE Modules');
+
+        if (!targetSheet) {
+            return NextResponse.json({
+                error: 'Sheet "JEE Modules" not found in the spreadsheet.'
+            }, { status: 404 });
+        }
+
+        const targetSheetTitle = targetSheet.properties?.title || 'JEE Modules';
 
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
-            range: `'${targetSheet}'!A1:Z1`, // Fetch header row of target sheet
+            range: `'${targetSheetTitle}'!A1:Z1`, // Fetch header row only
         });
 
         return NextResponse.json({
