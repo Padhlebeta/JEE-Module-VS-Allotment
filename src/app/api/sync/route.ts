@@ -4,6 +4,8 @@ import { getGoogleSheets } from '@/lib/googleSheets';
 import connectToDatabase from '@/lib/db';
 import Allotment from '@/models/Allotment';
 
+export const dynamic = 'force-dynamic';
+
 const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
 
 export async function POST() {

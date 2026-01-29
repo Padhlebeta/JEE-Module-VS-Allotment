@@ -4,6 +4,8 @@ import connectToDatabase from '@/lib/db';
 import Allotment from '@/models/Allotment';
 import { getGoogleSheets } from '@/lib/googleSheets';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         await connectToDatabase();
