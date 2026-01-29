@@ -3,12 +3,22 @@ import { getGoogleSheets } from '@/lib/googleSheets';
 
 const SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID;
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         const sheets = await getGoogleSheets();
+
+        // 1. Get first sheet name dynamically
+        const meta = await sheets.spreadsheets.get({
+            spreadsheetId: SPREADSHEET_ID,
+        });
+
+        const firstSheetName = meta.data.sheets?.[0]?.properties?.title || 'Sheet1';
+
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: SPREADSHEET_ID,
-            range: 'Sheet1!A1:Z1', // Fetch header row only
+            range: `'${firstSheetName}'!A1:Z1`, // Fetch header row of first sheet
         });
 
         return NextResponse.json({
